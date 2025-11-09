@@ -102,14 +102,12 @@ FOOD_CONSTANT=5
 
 PORT=8080
 
-# Redis (optional)
-REDIS_URL=redis://127.0.0.1:6379
+# Redis
 REDIS_HOST=127.0.0.1
 REDIS_PORT=6379
-REDIS_PASSWORD=
 REDIS_DISABLED=false   # set to true to use in-memory cache
 
-# MongoDB (optional analytics)
+# MongoDB 
 MONGO_URI=mongodb://127.0.0.1:27017
 MONGO_DB_NAME=card_genius_analytics
 ```

@@ -6,7 +6,7 @@ dotenv.config();
 async function seedDatabase() {
   try {
     // Seed categories
-    console.log('📦 Seeding categories...');
+    console.log('Seeding categories...');
     await pool.execute(`
       INSERT IGNORE INTO categories (\`key\`, name) VALUES
       ('travel', 'Travel'),
@@ -16,7 +16,7 @@ async function seedDatabase() {
     `);
 
     // Seed banks
-    console.log('🏦 Seeding banks...');
+    console.log('Seeding banks...');
     await pool.execute(`
       INSERT IGNORE INTO banks (bank_name) VALUES
       ('HDFC Bank'),
@@ -33,7 +33,7 @@ async function seedDatabase() {
     });
 
     // Seed cards
-    console.log('💳 Seeding cards...');
+    console.log('Seeding cards...');
     await pool.execute(`
       INSERT IGNORE INTO cards (bank_id, card_name, annual_fees, joining_fees, reward_points, rating, reviews_count) VALUES
       (?, 'HDFC Regalia Gold Credit Card', 1500, 2500, '4X', 4.5, 2847),
@@ -55,7 +55,7 @@ async function seedDatabase() {
     });
 
     // Seed card features
-    console.log('✨ Seeding card features...');
+    console.log('Seeding card features...');
     await pool.execute(`
       INSERT IGNORE INTO card_features (card_id, feature_title, feature_description) VALUES
       (?, '4X reward points on dining', 'Earn accelerated rewards on restaurant spends'),
@@ -80,7 +80,7 @@ async function seedDatabase() {
     ]);
 
     // Seed eligibility criteria
-    console.log('📋 Seeding eligibility criteria...');
+    console.log('Seeding eligibility criteria...');
     await pool.execute(`
       INSERT IGNORE INTO eligibility_criteria (card_id, min_age, max_age, min_income, min_cibil_score) VALUES
       (?, 21, 60, 500000, 750),
@@ -95,7 +95,7 @@ async function seedDatabase() {
     ]);
 
     // Seed category savings
-    console.log('💰 Seeding category savings...');
+    console.log('Seeding category savings...');
     const hdfcId = cardMap['HDFC Regalia Gold Credit Card'];
     const iciciId = cardMap['ICICI Bank Sapphiro Credit Card'];
     const axisId = cardMap['Axis Bank Magnus Credit Card'];
@@ -134,9 +134,9 @@ async function seedDatabase() {
       (?, 'food', 8.5)
     `, [sbiId, sbiId, sbiId, sbiId]);
 
-    console.log('✅ Database seeded successfully');
+    console.log('Database seeded successfully');
   } catch (error) {
-    console.error('❌ Error seeding database:', error);
+    console.error('Error seeding database:', error);
     throw error;
   } finally {
     // Don't close the pool here as it's shared
@@ -148,11 +148,11 @@ async function seedDatabase() {
 if (require.main === module) {
   seedDatabase()
     .then(() => {
-      console.log('🎉 Seeding completed');
+      console.log('Seeding completed');
       process.exit(0);
     })
     .catch((error) => {
-      console.error('💥 Seeding failed:', error);
+      console.error('Seeding failed:', error);
       process.exit(1);
     });
 }

@@ -8,30 +8,45 @@ async function createDatabase() {
   
   try {
     // Connect without specifying database first
-    connection = await mysql.createConnection({
+    // Handle empty password correctly
+    const connectionConfig = {
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'root',
-      password: process.env.DB_PASSWORD || '',
       port: process.env.DB_PORT || 3306
-    });
+    };
+    
+    // Only include password if explicitly set AND not empty
+    // If DB_PASSWORD is empty string, don't include it (MySQL will use no password)
+    if (process.env.DB_PASSWORD && process.env.DB_PASSWORD.trim() !== '') {
+      connectionConfig.password = process.env.DB_PASSWORD;
+    }
+    
+    connection = await mysql.createConnection(connectionConfig);
 
     const dbName = process.env.DB_NAME || 'card_genius';
 
     // Create database if it doesn't exist (use query instead of execute for DDL)
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\``);
-    console.log(`✅ Database '${dbName}' created or already exists`);
+    console.log(`Database '${dbName}' created or already exists`);
 
     // Close the initial connection
     await connection.end();
 
     // Create a new connection with the database specified
-    connection = await mysql.createConnection({
+    const dbConnectionConfig = {
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'root',
-      password: process.env.DB_PASSWORD || '',
       port: process.env.DB_PORT || 3306,
       database: dbName
-    });
+    };
+    
+    // Only include password if explicitly set AND not empty
+    // If DB_PASSWORD is empty string, don't include it (MySQL will use no password)
+    if (process.env.DB_PASSWORD && process.env.DB_PASSWORD.trim() !== '') {
+      dbConnectionConfig.password = process.env.DB_PASSWORD;
+    }
+    
+    connection = await mysql.createConnection(dbConnectionConfig);
 
     // Create categories table
     await connection.execute(`
@@ -122,10 +137,10 @@ async function createDatabase() {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
     `);
 
-    console.log('✅ All tables created successfully');
+    console.log('All tables created successfully');
 
   } catch (error) {
-    console.error('❌ Error creating database:', error);
+    console.error('Error creating database:', error);
     throw error;
   } finally {
     if (connection) {
@@ -138,11 +153,11 @@ async function createDatabase() {
 if (require.main === module) {
   createDatabase()
     .then(() => {
-      console.log('🎉 Database setup completed');
+      console.log('Database setup completed');
       process.exit(0);
     })
     .catch((error) => {
-      console.error('💥 Database setup failed:', error);
+      console.error('Database setup failed:', error);
       process.exit(1);
     });
 }

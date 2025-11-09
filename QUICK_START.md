@@ -7,15 +7,28 @@
 - MySQL running
 - Terminal access
 
-### 1. Install Everything
-```bash
-npm run install:all
+###1,Start backend (Docker):
+cd backend
+docker compose up --build
 ```
 
 ### 2. Configure Database
 Edit `backend/.env`:
 ```env
-DB_PASSWORD=your_mysql_password
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=YourPassword123!
+DB_NAME=card_genius
+DB_PORT=3306
+TRAVEL_CONSTANT=2
+SHOPING_CONSTANT=3
+FUEL_CONSTANT=4
+FOOD_CONSTANT=5
+PORT=8080
+REDIS_HOST="127.0.0.1"
+REDIS_PORT=6380
+MONGO_URI = 'mongodb://127.0.0.1:27017'
+MONGO_DB_NAME = 'card_genius_analytics'
 ```
 
 ### 3. Setup Database
@@ -74,15 +87,6 @@ node test-api.js
 
 ---
 
-## 📚 Documentation
-
-- **README.md** - Complete project documentation
-- **SETUP_GUIDE.md** - Detailed setup instructions
-- **API_DOCUMENTATION.md** - API reference
-- **PROJECT_SUMMARY.md** - Project overview
-
----
-
 ## ⚡ Troubleshooting
 
 **Database Connection Error?**
@@ -98,13 +102,4 @@ node test-api.js
 
 ---
 
-## 🎯 Next Steps
-
-1. Select categories on the home screen
-2. Adjust spending sliders
-3. View recommended cards
-4. Check card details
-5. See savings breakdown
-
-**Enjoy exploring Card Genius! 🎉**
 
